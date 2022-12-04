@@ -8,3 +8,12 @@ MakeFile
 /ColourfulTravels.vcxproj.filters
 /ColourfulTravels.vcxproj
 /ColourfulTravels.sln
+/bin/ColourfulTravels_debug.exe
+/bin/ColourfulTravels_debug.exp
+/bin/ColourfulTravels_debug.lib
+/bin/ColourfulTravels_debug.pdb
+/bin/ColourfulTravels_debug.exe
+/bin/ColourfulTravelsDebug
+/bin/fmod.dll
+/bin/fmodL.dll
+/bin/FreeImage.dll
