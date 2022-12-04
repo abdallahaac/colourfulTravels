@@ -3,7 +3,7 @@ MakeFile
 /Project.xcconfig
 /icon.rc
 /config.make
-obj 
+/obj 
 /ColourfulTravels.xcodeproj
 /ColourfulTravels.vcxproj.user
 /ColourfulTravels.vcxproj.filters
