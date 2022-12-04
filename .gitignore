@@ -3,6 +3,7 @@ MakeFile
 /Project.xcconfig
 /icon.rc
 /config.make
+obj 
 /ColourfulTravels.xcodeproj
 /ColourfulTravels.vcxproj.user
 /ColourfulTravels.vcxproj.filters
@@ -17,3 +18,4 @@ bin/ColourfulTravelsDebug
 bin/fmod.dll
 bin/fmodL.dll
 bin/FreeImage.dll
+.DS_Store
