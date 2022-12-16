@@ -12,24 +12,28 @@
 #endif /* Player_h */
 
 
-#define PLAYER_SPEED                                    // Y position the ground starts
+#define PLAYER_SPEED                            // Player movement speed
 
-class Player: public GameObject{
-    
-    
-public:
-    
-    Player();
-    
- 
-    struct JumpInfo
+
+struct JumpInfo
+{
+    int y, x, dy, dx, time;
+
+    void initialize()
     {
-        int y,x,dy,dx,time;
-    };
+        y, x, dy, dx, time = 0;
+    }
+};
+
+class Player: public GameObject
+{
+    private:
     
-    int getScore();
-    void increaseScore();
-    void playerMovement(PlayerAction* action);
+    public:
     
+        Player();
     
+        int getScore();
+        void increaseScore();
+        void playerMovement(PlayerAction* action);
 };

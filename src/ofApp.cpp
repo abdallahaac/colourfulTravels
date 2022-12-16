@@ -13,30 +13,21 @@ void ofApp::setup()
 
 	// Sending values to Input object to handle when one was clicked on
 	userInput.setButtons(buttons);
-
-    
- 
-    
-    
-    image.load("greenLoop.png");
-
-
-    player.setUp(ofGetWindowWidth()/2,ofGetWindowHeight()/2 , 10, 10,&image );
-
-    
-    
-    
     
 	// Setting default variable values
 	currentState = GAME_STATES::MAIN_MENU;
 	highscore = 0;
 	won = false;
-	//currentJump.initialize();
 
-	groundLevel = 0;
+	currentJump.initialize();
+
+	// Ground
+	firstPlatform = new Platform();
+	firstPlatform->setUp(0, WINDOW_HEIGHT - PLATFORM_HEIGHT, PLATFORM_HEIGHT, WINDOW_WIDTH, &GROUND_IMG);
+	groundLevel = firstPlatform;
 
 	numPowerUps = 0;
-	currentPowerUp = 0;
+	currentPowerUp = -1;
 
 	actions.initialize();
 }
@@ -44,17 +35,12 @@ void ofApp::setup()
 // Main program loop
 void ofApp::update()
 {
-
-
-    
-    
-    
-    // listens to user keyboard inputs and moves the player corresponsdingly
-    player.playerMovement(&actions);
-
 	switch (currentState)
 	{
 		case GAME_STATES::PLAY:
+
+			gameRound();
+
 			return;
 
 		case GAME_STATES::NEW_GAME:
@@ -65,6 +51,10 @@ void ofApp::update()
 			return;
 
 		case GAME_STATES::FINISHED_GAME:
+
+			setHighScore();
+			destroyPlatforms();
+
 			return;
 	}
 }
@@ -72,15 +62,10 @@ void ofApp::update()
 // Calls renderer object functions to draw game to screen
 void ofApp::draw()
 {
-    
-    
-
-
 	switch (currentState)
 	{
 		case GAME_STATES::PLAY:
-			renderer.displayCanvasView();
-            renderer.displayGameObject(player);
+			renderer.displayCanvasView(gamePlayer, firstPlatform, POWER_UP_NUM, buttons[BUTTONS::PAUSE_BUTTON]);
 			return;
 
 		case GAME_STATES::PAUSE:
@@ -97,13 +82,16 @@ void ofApp::draw()
 	}
 }
 
+// Called when program is exited, deletes dynamic memory that was allocated
+void ofApp::exit()
+{
+	destroyPlatforms();
+}
+
 // If a key, d key, w key, or left mouse button is pressed, update userInputand gameState accordingly
 void ofApp::keyPressed(int key)
 {
 	userInput.keyPress(&actions, key);
-    
-    
-    
 }
 
 // If a key or d key is released, update userInput accordingly
@@ -124,14 +112,14 @@ void ofApp::mousePressed(int x, int y, int button)
 void ofApp::buttonSetUp()
 {
 	// Play button
-	buttons[BUTTONS::PLAY_BUTTON].setUp(850, 469, 69, 363, &PLAY_BUTTON);
+	buttons[BUTTONS::PLAY_BUTTON].setUp(850, 469, 69, 363, &PLAY_BUTTON_IMG);
 }
 
 // Generates player information, platforms, power ups, and timer for a game round
 // Refer to section 6.6 for game round generation logic
 void ofApp::generateGame()
 {
-	//gamePlayer.setUp();
+	gamePlayer.setUp(PLAYER_STARTING_X, PLAYER_STARTING_Y, PLAYER_HEIGHT, PLAYER_WIDTH, &PLAYER_IMG);
 
 	//timer.setUp();
 
@@ -139,25 +127,124 @@ void ofApp::generateGame()
 
 	generateExtraPlatforms();
 
-	generatePowerUps();
+	//generatePowerUps();
 }
 
 // Generates the platforms for the winning path with their colour, type (regular or special), and position
-int ofApp::generateWinningPath()
+// Refer to section 6.11.2 for algorithm
+void ofApp::generateWinningPath()
 {
-	return 0;
+	int sectionColours[WINNING_SECTIONS_NUM];
+	bool sectionComplete = false;
+	int numGenerated = 0;
+
+	Platform* lastGenerated = firstPlatform;
+
+	for (int i = 0; i < WINNING_SECTIONS_NUM - 1; i++)
+	{
+		sectionColours[i] = randomColour();
+
+		sectionComplete = false;
+
+		while(sectionComplete == false)
+		{
+			Platform* p = new Platform();
+
+			lastGenerated->setNext(p);
+			p->setPrevious(lastGenerated);
+
+			generatePlatforms(p);
+
+			if (p->getPos().y <= WINNING_SECTIONS[i])
+			{
+				if (i != WINNING_SECTIONS_NUM - 2)
+				{
+					p->setType(PLATFORMS::SPECIAL);
+					p->setUp(p->getPos().x, p->getPos().y, PLATFORM_HEIGHT, PLATFORM_WIDTH, &PLATFORM_IMGS[COLOURS::RAINBOW]);
+				}
+				else
+				{
+					p->setType(PLATFORMS::END);
+					p->setUp(0, p->getPos().y, PLATFORM_HEIGHT, CANVAS_WIDTH, &GROUND_IMG);
+				}
+				sectionComplete = true;
+			}
+			else
+			{
+				p->setType(PLATFORMS::REGULAR);
+				p->setUp(p->getPos().x, p->getPos().y, PLATFORM_HEIGHT, PLATFORM_WIDTH, &PLATFORM_IMGS[sectionColours[i]]);
+			}
+
+			lastGenerated = p;
+			numGenerated++;
+		}
+	}
 }
 
 // Generates the random extra platforms with their colour, type(regular or special), and position
+// Refer to section 6.11.3 for algorithm
 void ofApp::generateExtraPlatforms()
 {
+	bool generationComplete = false;
+	Platform* currentPlatform = firstPlatform;
 
+	while (currentPlatform->getNext()->getType() != PLATFORMS::END)
+	{
+		Platform* p = new Platform();
+
+		p->setNext(currentPlatform->getNext());
+		currentPlatform->getNext()->setPrevious(p);
+
+		currentPlatform->setNext(p);
+		p->setPrevious(currentPlatform);
+
+		generationComplete = false;
+
+		while (generationComplete == false)
+		{
+			generatePlatforms(p);
+			p->setUp(p->getPos().x, p->getPos().y, PLATFORM_HEIGHT, PLATFORM_WIDTH, NULL);
+
+			if (p->getNext()->isCollided(p) == false)
+			{
+				generationComplete = true;
+			}
+		}
+
+		p->setType();
+
+		if (p->getType() == PLATFORMS::REGULAR)
+		{
+			p->setUp(p->getPos().x, p->getPos().y, PLATFORM_HEIGHT, PLATFORM_WIDTH, &PLATFORM_IMGS[randomColour()]);
+		}
+		else
+		{
+			p->setUp(p->getPos().x, p->getPos().y, PLATFORM_HEIGHT, PLATFORM_WIDTH, &PLATFORM_IMGS[COLOURS::RAINBOW]);
+		}
+
+		currentPlatform = currentPlatform->getNext()->getNext();
+	}
 }
 
 // Generates a random y position for the platform based on JUMP_HEIGHT, and a random x position for the platform based on JUMP_WIDTH
-void ofApp::generatePlatforms()
+// Refer to section 6.11.5 for algorithm
+void ofApp::generatePlatforms(Platform* currentPlatform)
 {
+	Position tempPos; 
+	tempPos.initialize();
 
+	// Generating y
+	tempPos.y = (int)ofRandom(MIN_PLATFORM_DISTANCE, JUMP_HEIGHT);
+	currentPlatform->setY(currentPlatform->getPrevious()->getPos().y - tempPos.y);
+
+	// Generating x
+	currentPlatform->setX(-1);
+
+	while (!(currentPlatform->getPos().x >= 0 && currentPlatform->getPos().x <= (CANVAS_WIDTH - PLATFORM_WIDTH)))
+	{
+		tempPos.x = ofRandom(-JUMP_WIDTH, JUMP_WIDTH);
+		currentPlatform->setX(currentPlatform->getPrevious()->getPos().x + tempPos.x);
+	}
 }
 
 // Generates the power ups with their type (banana or pear) and what platform they are on
@@ -169,7 +256,8 @@ void ofApp::generatePowerUps()
 // One loop of game round loop
 void ofApp::gameRound()
 {
-
+	// listens to user keyboard inputs and moves the player corresponsdingly
+	gamePlayer.playerMovement(&actions);
 }
 
 // Sets the high score if the parameter high score is higher than the current one
@@ -178,14 +266,24 @@ int ofApp::setHighScore()
 	return 0;
 }
 
-// Picks and returns a random colour from COLOURS
+// Picks and returns a random colour from COLOURS (RED, ORANGE, YELLOW, GREEN, BLUE, or PURPLE)
 int ofApp::randomColour()
 {
-	return 0;
+	return (int)ofRandom(COLOURS::RED, COLOURS::PURPLE + 1);
 }
 
 // Destroys all platform objects at the end of a game round
 void ofApp::destroyPlatforms()
 {
+	Platform* p = firstPlatform;
+	Platform* temp;
 
+	while (p != NULL)
+	{
+		temp = p->getNext();
+
+		delete p;
+
+		p = temp;
+	}
 }

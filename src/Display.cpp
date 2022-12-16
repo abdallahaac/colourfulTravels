@@ -13,17 +13,39 @@ Display::Display()
 // Private functions **************************************************************************************************************************************
 
 // Draws the object to screen at specified location (takes game object)
-void Display::displayGameObject()
+void Display::displayGameObject(GameObject toDisplay)
 {
-
+	toDisplay.getImage()->draw(toDisplay.getPos().x, toDisplay.getPos().y);
 }
 
 // Other Functions ****************************************************************************************************************************************
 
 // Draws the game canvas view to screen
-void Display::displayCanvasView()
+// Refer to section 6.11.7 for algorithm
+void Display::displayCanvasView(Player player, Platform* firstPlatform, /*PowerUp fruit[],*/ int numPowerUps, /*Clock timer,*/ GameObject pauseButton)
 {
+	// Drawing background 
 	gameBackground.draw(0, 0);
+
+	ofPushMatrix();
+	
+		// Camera movements
+		ofTranslate(0, PLAYER_STARTING_Y - player.getPos().y);
+
+		// Drawing platfroms 
+		Platform* p = firstPlatform;
+
+		while (p != NULL)
+		{
+			displayGameObject(*p);
+
+			p = p->getNext();
+		}
+
+		// Drawing player
+		displayGameObject(player);
+
+	ofPopMatrix();
 }
 
 //	Draws the main menu to screen with instructions, play button, and highscore
@@ -39,8 +61,7 @@ void Display::displayMainMenu(GameObject playButton, int highscore)
 // Draws the pause menu to screen with unpause button, restart button, and main menu button
 void Display::displayPausedMenu()
 {
- 
-    mainMenuBackground.draw(0, 0);
+	gameBackground.draw(0, 0);
 
 //    playButton.getImage()->draw(playButton.getPos().x, playButton.getPos().y);
 //
@@ -52,11 +73,4 @@ void Display::displayPausedMenu()
 void Display::displayEndGame()
 {
 
-}
-
-// Draws the GameObject to the screen
-void Display::displayGameObject(GameObject gameObject)
-{
-    gameObject.getImage()->draw(gameObject.getPos().x, gameObject.getPos().y);
-    
 }

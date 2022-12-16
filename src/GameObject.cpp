@@ -21,7 +21,6 @@ Position GameObject::getPos()
 	return pos;
 }
 
-
 // Returns the height of the object (variable is private)
 int GameObject::getHeight()
 {
@@ -33,7 +32,6 @@ int GameObject::getWidth()
 {
 	return width;
 }
-
 
 // Returns the pointer to ofImage object of the object (variable is private)
 ofImage* GameObject::getImage()

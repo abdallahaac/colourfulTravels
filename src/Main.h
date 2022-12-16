@@ -2,13 +2,18 @@
 
 #pragma once
 
-#define WINDOW_HEIGHT 800			// Game window height
-#define WINDOW_WIDTH 1400			// Game window width
-#define CANVAS_HEIGHT				// Game canvas height
-#define CANVAS_WIDTH				// Game canvas width
-#define FRAME_RATE 60				// Game frame rate
-#define NUM_COLOURS 6				// Number of colours in the game
-#define NUM_BUTTONS	6				// Number of buttons in the game
+#define WINDOW_HEIGHT 800															// Game window height
+#define WINDOW_WIDTH 1400															// Game window width
+#define CANVAS_HEIGHT 5000															// Game canvas height
+#define CANVAS_WIDTH WINDOW_WIDTH													// Game canvas width
+#define FRAME_RATE 60																// Game frame rate
+#define NUM_COLOURS 6																// Number of colours in the game
+#define NUM_BUTTONS	6																// Number of buttons in the game
+#define PLATFORM_HEIGHT 20															// Platform’s height
+#define PLAYER_HEIGHT 26															// Player height
+#define PLAYER_WIDTH 28																// Player width
+#define PLAYER_STARTING_X (WINDOW_WIDTH / 2)										// Player starting x position
+#define PLAYER_STARTING_Y (WINDOW_HEIGHT - PLATFORM_HEIGHT - PLAYER_HEIGHT)			// Player starting y position 
 
 // Storing a coordinate position of an object on screen
 struct Position
@@ -46,7 +51,7 @@ enum POWERUPS
 };
 
 // Enum for the number representation of each platform
-enum PLATOFORMS
+enum PLATFORMS
 {
 	REGULAR,
 	SPECIAL,
@@ -76,10 +81,6 @@ enum BUTTONS
 	PLAY_AGAIN_BUTTON,
 	RESUME_BUTTON
 };
-struct JumpInfo
-{
-    int y,x,dy,dx,time;
-};
 
 #include "ofMain.h"
 #include "GameObject.h"
@@ -89,7 +90,5 @@ struct JumpInfo
 //#include "Pear.h"
 #include "Platform.h"
 //#include "Clock.h"
-
 #include "Display.h"
-
 #include "ofApp.h"

@@ -70,16 +70,14 @@ void Input::keyPress(PlayerAction* actions, int key)
 	}
 }
 
-
 // Decides what the player is doing based on the key that was released
 // Takes a pointer to a PlayerAction struct and updates it accordingly
 void Input::keyRelease(PlayerAction* actions, int key)
 {
+	// (No JUMP_KEY case because even if the player releases the key, they still may be in the air)
+
 	switch (key)
 	{
-        case UP_KEY:
-            actions->jump = false;
-            return;
 		case RIGHT_KEY:
 			actions->right = false;
 			return;
@@ -102,6 +100,10 @@ int Input::mousePress(int x, int y, int button, int gameState)
 			{
 				return GAME_STATES::PAUSE;
 			}
+			else
+			{
+				return gameState;
+			}
 		}
 		else if (gameState == GAME_STATES::PAUSE)
 		{
@@ -113,12 +115,20 @@ int Input::mousePress(int x, int y, int button, int gameState)
 			{
 				return GAME_STATES::NEW_GAME;
 			}
+			else
+			{
+				return gameState;
+			}
 		}
 		else if (gameState == GAME_STATES::MAIN_MENU)
 		{
 			if (checkButtonPress(buttons[BUTTONS::PLAY_BUTTON], x, y))
 			{
 				return GAME_STATES::NEW_GAME;
+			}
+			else
+			{
+				return gameState;
 			}
 		}
 		else if (gameState == GAME_STATES::FINISHED_GAME)
@@ -130,6 +140,10 @@ int Input::mousePress(int x, int y, int button, int gameState)
 			else if (checkButtonPress(buttons[BUTTONS::MAIN_MENU_BUTTON], x, y))
 			{
 				return GAME_STATES::MAIN_MENU;
+			}
+			else
+			{
+				return gameState;
 			}
 		}
 	}
