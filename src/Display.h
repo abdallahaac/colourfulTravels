@@ -11,16 +11,15 @@ class Display
 		ofImage endGameBackground = ofImage("");
 		
 		// Private functions
-		void displayGameObject();
+		void displayGameObject(GameObject toDisplay);
 
 	public:
 		// Constructors
 		Display();
 
 		// Other Functions
-		void displayCanvasView();
+		void displayCanvasView(Player player, Platform* firstPlatform, /*PowerUp fruit[],*/ int numPowerUps, /*Clock timer,*/ GameObject pauseButton);
 		void displayMainMenu(GameObject playButton, int highscore);
 		void displayPausedMenu();
 		void displayEndGame();
-        void displayGameObject(GameObject gameObject);
 };

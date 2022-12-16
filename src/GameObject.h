@@ -4,11 +4,7 @@
 
 class GameObject
 {
-    // Other methods
-
-
-    
-	private:
+	protected:
 		Position pos;				// Coordinate position of object
 		int width;					// Width of object
 		int height;					// Height of object
@@ -23,12 +19,9 @@ class GameObject
 		int getHeight();
 		int getWidth();
 		ofImage* getImage();
-        ofImage* setImage(ofImage* image);
 
 		// Set methods
 		void setX(int x);
 		void setY(int y);
         virtual void setUp(int startingX, int startingY, int objectHeight, int objectWidth, ofImage* objectImage);
-
-
 };
