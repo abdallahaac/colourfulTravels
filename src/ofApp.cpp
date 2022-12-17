@@ -15,7 +15,7 @@ void ofApp::setup()
 	userInput.setButtons(buttons);
     
 	// Setting default variable values
-	currentState = GAME_STATES::FINISHED_GAME;
+	currentState = GAME_STATES::MAIN_MENU;
 	highscore = 0;
 	won = false;
 
