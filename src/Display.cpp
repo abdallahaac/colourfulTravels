@@ -42,6 +42,19 @@ void Display::displayCanvasView(Player player, Platform* firstPlatform, /*PowerU
 			p = p->getNext();
 		}
 
+		// Drawing power ups
+		/* UNCOMMENT WHEN POWERUP CLASS IS DONE
+		
+		for (int i = 0; i < numPowerUps; i++)
+		{
+			if (fruit[i].isDisabled() == false)
+			{
+				displayGameObject(fruit[i]);
+			}
+		}
+		
+		*/
+
 		// Drawing player
 		displayGameObject(player);
 
