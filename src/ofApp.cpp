@@ -15,16 +15,14 @@ void ofApp::setup()
 	userInput.setButtons(buttons);
     
 	// Setting default variable values
-	currentState = GAME_STATES::MAIN_MENU;
+	currentState = GAME_STATES::FINISHED_GAME;
 	highscore = 0;
 	won = false;
 
 	currentJump.initialize();
 
 	// Ground
-	firstPlatform = new Platform();
-	firstPlatform->setUp(0, WINDOW_HEIGHT - PLATFORM_HEIGHT, PLATFORM_HEIGHT, WINDOW_WIDTH, &GROUND_IMG);
-	groundLevel = firstPlatform;
+	firstPlatform = NULL;
 
 	numPowerUps = 0;
 	currentPowerUp = -1;
@@ -69,7 +67,7 @@ void ofApp::draw()
 			return;
 
 		case GAME_STATES::PAUSE:
-			renderer.displayPausedMenu();
+			renderer.displayPausedMenu(buttons[BUTTONS::RESUME_BUTTON], buttons[BUTTONS::RESTART_BUTTON], buttons[BUTTONS::MAIN_MENU_BUTTON]);
 			return;
 
 		case GAME_STATES::MAIN_MENU:
@@ -77,7 +75,7 @@ void ofApp::draw()
 			return;
 
 		case GAME_STATES::FINISHED_GAME:
-			renderer.displayEndGame();
+			renderer.displayEndGame(buttons[BUTTONS::MAIN_MENU_BUTTON], buttons[BUTTONS::PLAY_AGAIN_BUTTON], won, gamePlayer.getScore());
 			return;
 	}
 }
@@ -113,6 +111,21 @@ void ofApp::buttonSetUp()
 {
 	// Play button
 	buttons[BUTTONS::PLAY_BUTTON].setUp(850, 469, 69, 363, &PLAY_BUTTON_IMG);
+
+	// Pause button
+	buttons[BUTTONS::PAUSE_BUTTON].setUp(1285, 30, 69, 81, &PAUSE_BUTTON_IMG);
+
+	// Resume button
+	buttons[BUTTONS::RESUME_BUTTON].setUp(519, 173, 69, 363, &RESUME_BUTTON_IMG);
+
+	// Restart button
+	buttons[BUTTONS::RESTART_BUTTON].setUp(519, 383, 69, 363, &RESTART_BUTTON_IMG);
+
+	// Main menu button
+	buttons[BUTTONS::MAIN_MENU_BUTTON].setUp(519, 593, 69, 363, &MAIN_MENU_BUTTON_IMG);
+
+	// Play again button
+	buttons[BUTTONS::PLAY_AGAIN_BUTTON].setUp(519, 496, 69, 363, &PLAY_AGAIN_BUTTON_IMG);
 }
 
 // Generates player information, platforms, power ups, and timer for a game round
@@ -121,7 +134,16 @@ void ofApp::generateGame()
 {
 	gamePlayer.setUp(PLAYER_STARTING_X, PLAYER_STARTING_Y, PLAYER_HEIGHT, PLAYER_WIDTH, &PLAYER_IMG);
 
+	actions.initialize();
+
+	won = false;
+
 	//timer.setUp();
+
+	// Generating ground
+	firstPlatform = new Platform();
+	firstPlatform->setUp(0, WINDOW_HEIGHT - PLATFORM_HEIGHT, PLATFORM_HEIGHT, WINDOW_WIDTH, &GROUND_IMG);
+	groundLevel = firstPlatform;
 
 	generateWinningPath();
 
@@ -276,6 +298,8 @@ int ofApp::randomColour()
 void ofApp::destroyPlatforms()
 {
 	Platform* p = firstPlatform;
+	firstPlatform = NULL;
+
 	Platform* temp;
 
 	while (p != NULL)

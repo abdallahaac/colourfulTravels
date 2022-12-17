@@ -46,31 +46,60 @@ void Display::displayCanvasView(Player player, Platform* firstPlatform, /*PowerU
 		displayGameObject(player);
 
 	ofPopMatrix();
+
+	// Drawing pause button
+	displayGameObject(pauseButton);
 }
 
 //	Draws the main menu to screen with instructions, play button, and highscore
 void Display::displayMainMenu(GameObject playButton, int highscore)
 {
+	// Drawing background
 	mainMenuBackground.draw(0, 0);
 
-	playButton.getImage()->draw(playButton.getPos().x, playButton.getPos().y);
+	// Drawing play button
+	displayGameObject(playButton);
 
+	// Drawing highscore
 	ofDrawBitmapString(ofToString(highscore), 1127, 585);
 }
 
 // Draws the pause menu to screen with unpause button, restart button, and main menu button
-void Display::displayPausedMenu()
+void Display::displayPausedMenu(GameObject resumeButton, GameObject restartButton, GameObject mainMenuButton)
 {
-	gameBackground.draw(0, 0);
+	// Drawing background
+	pausedMenuBackground.draw(0, 0);   
 
-//    playButton.getImage()->draw(playButton.getPos().x, playButton.getPos().y);
-//
-//    ofDrawBitmapString(ofToString(highscore), 1127, 585);
-    
+	// Drawing resume button
+	displayGameObject(resumeButton);
+
+	// Drawing restart button
+	displayGameObject(restartButton);
+
+	// Drawing main menu button
+	displayGameObject(mainMenuButton);
 }
 
 // Draws the finished game menu to screen with the player’s score, if they have won or not, play again button, and main menu button
-void Display::displayEndGame()
+void Display::displayEndGame(GameObject mainMenuButton, GameObject playAgainButton, bool won, int score)
 {
+	if (won == true)
+	{
+		// Drawing won background
+		wonBackground.draw(0, 0);
+	}
+	else
+	{
+		// Drawing lost button
+		lostBackground.draw(0, 0);
+	}
 
+	// Drawing main menu button
+	displayGameObject(mainMenuButton);
+
+	// Drawing play again button
+	displayGameObject(playAgainButton);
+
+	// Drawing score
+	ofDrawBitmapString(ofToString(score), 735, 435);
 }

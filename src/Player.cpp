@@ -13,6 +13,11 @@ Player::Player(){
     
 }
 
+int Player::getScore()
+{
+    return 0;
+}
+
 void Player::playerMovement(PlayerAction* action)
 {
     if (action->right)  // right movement

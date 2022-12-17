@@ -38,11 +38,11 @@ class ofApp : public ofBaseApp
 		ofImage GROUND_IMG = ofImage("ground.png");
 		ofImage PLAYER_IMG = ofImage("greenLoop.png");	
 		ofImage PLAY_BUTTON_IMG = ofImage("playButton.png");
-		ofImage PAUSE_BUTTON_IMG = ofImage("");
-		ofImage RESTART_BUTTON_IMG = ofImage("");
-		ofImage MAIN_MENU_BUTTON_IMG = ofImage("");
-		ofImage PLAY_AGAIN_BUTTON_IMG = ofImage("");
-		ofImage RESUME_BUTTON_IMG = ofImage("");
+		ofImage PAUSE_BUTTON_IMG = ofImage("pauseButton.png");
+		ofImage RESTART_BUTTON_IMG = ofImage("restartButton.png");
+		ofImage MAIN_MENU_BUTTON_IMG = ofImage("mainMenuButton.png");
+		ofImage PLAY_AGAIN_BUTTON_IMG = ofImage("playAgainButton.png");
+		ofImage RESUME_BUTTON_IMG = ofImage("resumeButton.png");
 
 		// Program variables
 		int currentState;						// Current state of game (takes a value of GAME_STATES)

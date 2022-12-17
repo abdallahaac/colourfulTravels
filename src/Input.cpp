@@ -115,6 +115,10 @@ int Input::mousePress(int x, int y, int button, int gameState)
 			{
 				return GAME_STATES::NEW_GAME;
 			}
+			else if (checkButtonPress(buttons[BUTTONS::MAIN_MENU_BUTTON], x, y))
+			{
+				return GAME_STATES::MAIN_MENU;
+			}
 			else
 			{
 				return gameState;
