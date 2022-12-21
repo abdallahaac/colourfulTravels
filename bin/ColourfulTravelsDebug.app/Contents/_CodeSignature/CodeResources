@@ -8,6 +8,10 @@
 		<data>
 		PK/FgaLxSEW4pVQhtgMTghsTUq4=
 		</data>
+		<key>Resources/imgui.ini</key>
+		<data>
+		DvsHRv2kYZjM2kOsmWCIj0UHfcQ=
+		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
@@ -25,6 +29,13 @@
 			<key>hash2</key>
 			<data>
 			3XSbGmlR3OhU9h6wZodURMhm0Su03tPkfZlW6khxq0g=
+			</data>
+		</dict>
+		<key>Resources/imgui.ini</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			B/Qsn6yVpXdNwEhyk61KfSzImAJ2UEdOFWIvGuPgRsw=
 			</data>
 		</dict>
 	</dict>

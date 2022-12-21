@@ -14,10 +14,13 @@
 
 #define PLAYER_SPEED                            // Player movement speed
 
+#pragma once
+#include "Platform.h"
 
 struct JumpInfo
 {
     int y, x, dy, dx, time;
+    
 
     void initialize()
     {
@@ -31,9 +34,33 @@ class Player: public GameObject
     
     public:
     
-        Player();
+    float playerGroundLevel;
     
+    
+        Player();
+    float x;
+        float jumpTime;
+        bool jumping;
+        ofColor playerColor;
+        int speed ;
+        int jumpingCooldown;
         int getScore();
         void increaseScore();
-        void playerMovement(PlayerAction* action);
+        void playerMovement(PlayerAction* action,Platform* head);
+        void setUp(int startingX, int startingY, int objectHeight, int objectWidth, ofImage* objectImage);
+        void setPlayerColor();
+        
+    // platform color
+    ofColor color;
+    ofColor platformColour;
+
+    //platform image
+
+    int getPlatformPosition();
+    
+    ofImage platformImage;
+// gets the platform cololour thats under the player
+ofColor getPlatformColorUnderPlayer();
+//sets players positions when passing platform
+void setPlayerPositionWhenPassing();
 };

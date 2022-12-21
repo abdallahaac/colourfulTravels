@@ -65,4 +65,7 @@ void GameObject::setUp(int startingX, int startingY, int objectHeight, int objec
 	width = objectWidth;
 
 	image = objectImage;
+    
+    
+    
 }

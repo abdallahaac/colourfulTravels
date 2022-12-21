@@ -85,6 +85,11 @@ void Input::keyRelease(PlayerAction* actions, int key)
 		case LEFT_KEY:
 			actions->left = false;
 			return;
+        case UP_KEY:
+            actions->right = false;
+            return;
+
+
 	}
 }
 

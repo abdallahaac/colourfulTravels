@@ -17,7 +17,7 @@ class Display
 	public:
 		// Constructors
 		Display();
-
+    
 		// Other Functions
 		void displayCanvasView(Player player, Platform* firstPlatform, /*PowerUp fruit[],*/ int numPowerUps, /*Clock timer,*/ GameObject pauseButton);
 		void displayMainMenu(GameObject playButton, int highscore);

@@ -58,6 +58,7 @@ void Platform::setType()
 	}
 }
 
+
 // (Overload 2) Sets object to of inputted type (variable is private)
 void Platform::setType(int newType)
 {

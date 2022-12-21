@@ -2,6 +2,7 @@
 
 #pragma once
 
+
 class Platform : public GameObject
 {
 	private:
@@ -20,6 +21,9 @@ class Platform : public GameObject
 		int getColour();
 		Platform* getNext();
 		Platform* getPrevious();
+    
+    
+       
 
 		// Set methods
 		void setType();
@@ -27,9 +31,12 @@ class Platform : public GameObject
 		void setColour(int newColour);
 		void setNext(Platform* nextPlatform);
 		void setPrevious(Platform* previousPlatform);
-
+        
+    
 		// Other functions
 		bool isCollided(GameObject* object);
 		bool isLandedOn();
 		void landed();
+    
+
 };

@@ -8,6 +8,7 @@
 #define JUMP_WIDTH 450							// Maximum width the player can jump
 #define MAX_TIME								// Amount of time the player has to reach the top
 
+#include "ofxImGui.h"
 // Ending y value of each colour section in the winning path (from bottom to top)
 const int WINNING_SECTIONS[WINNING_SECTIONS_NUM] = {0, -800, -1600, -2400, -3200, -4000};
 
@@ -36,13 +37,19 @@ class ofApp : public ofBaseApp
 									 ofImage("purplePlatform.png"), 
 									 ofImage("specialPlatform.png") };
 		ofImage GROUND_IMG = ofImage("ground.png");
-		ofImage PLAYER_IMG = ofImage("greenLoop.png");	
+		ofImage PLAYER_IMG = ofImage("loop.png");	
 		ofImage PLAY_BUTTON_IMG = ofImage("playButton.png");
 		ofImage PAUSE_BUTTON_IMG = ofImage("pauseButton.png");
 		ofImage RESTART_BUTTON_IMG = ofImage("restartButton.png");
 		ofImage MAIN_MENU_BUTTON_IMG = ofImage("mainMenuButton.png");
 		ofImage PLAY_AGAIN_BUTTON_IMG = ofImage("playAgainButton.png");
 		ofImage RESUME_BUTTON_IMG = ofImage("resumeButton.png");
+    
+     
+    
+        float previousTime, currentTime;
+        ofColor backgroundColour;
+          
 
 		// Program variables
 		int currentState;						// Current state of game (takes a value of GAME_STATES)
@@ -65,9 +72,11 @@ class ofApp : public ofBaseApp
 		Display renderer;						// Display object for drawing to screen
 		PlayerAction actions;					// PlayerAction structure for storing player actions to be executed
 		Input userInput;						// Input object for handling user input
+        ofxImGui::Gui m_gui;
 
 	public:
 
+    
 		// Built-in functions
 		void setup();
 		void update();

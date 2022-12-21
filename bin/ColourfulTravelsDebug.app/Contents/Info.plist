@@ -7,11 +7,11 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>ColourfulTravelsDebug</string>
+	<string>colourfulTravelsDebug</string>
 	<key>CFBundleIconFile</key>
 	<string>icon-debug.icns</string>
 	<key>CFBundleIdentifier</key>
-	<string>cc.openFrameworks.ColourfulTravelsDebug</string>
+	<string>cc.openFrameworks.colourfulTravelsDebug</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>

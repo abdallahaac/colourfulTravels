@@ -28,11 +28,32 @@ void ofApp::setup()
 	currentPowerUp = -1;
 
 	actions.initialize();
+    
+    gamePlayer.jumping=false;
+    backgroundColour.set(227, 244, 255);
+    previousTime = 0;
+    currentTime = ofGetElapsedTimef();
+    gamePlayer.setPlayerColor();
+    
+    currentJump.dy=4;
+    m_gui.setup();
+    
 }
 
 // Main program loop
 void ofApp::update()
 {
+    
+
+//
+//    gamePlayer.platformImage.grabScreen(gamePlayer.getPos().x, gamePlayer.getPos().y+30 , 1,  1);
+//
+//
+//    gamePlayer.platformColour = gamePlayer.platformImage.getPixels().getColor(0);
+//
+//
+//    cout << "Platform colour: "<< gamePlayer.platformColour<<endl;
+ 
 	switch (currentState)
 	{
 		case GAME_STATES::PLAY:
@@ -57,9 +78,17 @@ void ofApp::update()
 	}
 }
 
+
 // Calls renderer object functions to draw game to screen
 void ofApp::draw()
 {
+    
+    m_gui.begin();
+    {
+        
+    }
+    m_gui.end();
+    
 	switch (currentState)
 	{
 		case GAME_STATES::PLAY:
@@ -90,18 +119,34 @@ void ofApp::exit()
 void ofApp::keyPressed(int key)
 {
 	userInput.keyPress(&actions, key);
+    if(key==UP_KEY)
+    {
+        gamePlayer.jumping=true;
+        
+     
+    }
 }
 
 // If a key or d key is released, update userInput accordingly
 void ofApp::keyReleased(int key)
 {
 	userInput.keyRelease(&actions, key);
+    if(key==UP_KEY)
+    {
+//        gamePlayer.jumping=false;
+
+
+    }
 }
 
 // If the mouse have been clicked, call checkButtonPress()
 void ofApp::mousePressed(int x, int y, int button)
 {
+
 	currentState = userInput.mousePress(x, y, button, currentState);
+
+
+    
 }
 
 // Other functions
@@ -279,7 +324,7 @@ void ofApp::generatePowerUps()
 void ofApp::gameRound()
 {
 	// listens to user keyboard inputs and moves the player corresponsdingly
-	gamePlayer.playerMovement(&actions);
+	gamePlayer.playerMovement(&actions,firstPlatform);
 }
 
 // Sets the high score if the parameter high score is higher than the current one
@@ -311,3 +356,5 @@ void ofApp::destroyPlatforms()
 		p = temp;
 	}
 }
+
+

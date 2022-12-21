@@ -27,10 +27,11 @@ void Display::displayCanvasView(Player player, Platform* firstPlatform, /*PowerU
 	// Drawing background 
 	gameBackground.draw(0, 0);
 
+//    player.color=player.getPlatformColorUnderPlayer();
 	ofPushMatrix();
 	
 		// Camera movements
-		ofTranslate(0, PLAYER_STARTING_Y - player.getPos().y);
+//		ofTranslate(0, PLAYER_STARTING_Y - player.getPos().y);
 
 		// Drawing platfroms 
 		Platform* p = firstPlatform;
@@ -56,12 +57,19 @@ void Display::displayCanvasView(Player player, Platform* firstPlatform, /*PowerU
 		*/
 
 		// Drawing player
+    
+    ofPushMatrix();
+    ofFill();
+
+    ofSetColor(player.color);
 		displayGameObject(player);
-
 	ofPopMatrix();
+    ofSetColor(255, 255, 255);
 
+    ofPopMatrix();
 	// Drawing pause button
 	displayGameObject(pauseButton);
+
 }
 
 //	Draws the main menu to screen with instructions, play button, and highscore

@@ -13,7 +13,7 @@
 #define PLAYER_HEIGHT 26															// Player height
 #define PLAYER_WIDTH 28																// Player width
 #define PLAYER_STARTING_X (WINDOW_WIDTH / 2)										// Player starting x position
-#define PLAYER_STARTING_Y (WINDOW_HEIGHT - PLATFORM_HEIGHT - PLAYER_HEIGHT)			// Player starting y position 
+#define PLAYER_STARTING_Y (WINDOW_HEIGHT - PLATFORM_HEIGHT - PLAYER_HEIGHT -5)			// Player starting y position 
 
 // Storing a coordinate position of an object on screen
 struct Position
