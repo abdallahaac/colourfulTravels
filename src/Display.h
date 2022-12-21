@@ -1,6 +1,7 @@
 // Class for drawing to user
 
 #pragma once
+#include "Clock.h"
 
 class Display
 {
@@ -10,6 +11,9 @@ class Display
 		ofImage pausedMenuBackground = ofImage("pausedBackground.png");
 		ofImage wonBackground = ofImage("wonBackground.png");
 		ofImage lostBackground = ofImage("lostBackground.png");
+    
+        ofTrueTypeFont clockFont;
+        
 		
 		// Private functions
 		void displayGameObject(GameObject toDisplay);
@@ -19,8 +23,10 @@ class Display
 		Display();
     
 		// Other Functions
-		void displayCanvasView(Player player, Platform* firstPlatform, /*PowerUp fruit[],*/ int numPowerUps, /*Clock timer,*/ GameObject pauseButton);
+		void displayCanvasView(Player player, Platform* firstPlatform, /*PowerUp fruit[],*/ int numPowerUps, Clock timer, GameObject pauseButton);
 		void displayMainMenu(GameObject playButton, int highscore);
 		void displayPausedMenu(GameObject resumeButton, GameObject restartButton, GameObject mainMenuButton);
 		void displayEndGame(GameObject mainMenuButton, GameObject playAgainButton, bool won, int score);
+        void displayTimer(Clock timer);
+    
 };

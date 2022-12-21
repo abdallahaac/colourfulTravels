@@ -3,6 +3,7 @@
 #pragma once
 
 
+
 class Platform : public GameObject
 {
 	private:
@@ -21,7 +22,7 @@ class Platform : public GameObject
 		int getColour();
 		Platform* getNext();
 		Platform* getPrevious();
-    
+      
     
        
 

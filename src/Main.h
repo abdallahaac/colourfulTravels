@@ -89,6 +89,6 @@ enum BUTTONS
 //#include "PowerUps.h"
 //#include "Pear.h"
 #include "Platform.h"
-//#include "Clock.h"
+#include "Clock.h"
 #include "Display.h"
 #include "ofApp.h"

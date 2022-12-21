@@ -1,5 +1,6 @@
 #pragma once
 
+
 #define POWER_UP_NUM 20							// Number of power ups in a game round
 #define WINNING_SECTIONS_NUM 6					// Number of colour section the winning path will be split up in
 #define MIN_PLATFORM_DISTANCE 90				// Minimum distance platforms have to be apart (y)
@@ -8,7 +9,7 @@
 #define JUMP_WIDTH 450							// Maximum width the player can jump
 #define MAX_TIME								// Amount of time the player has to reach the top
 
-#include "ofxImGui.h"
+
 // Ending y value of each colour section in the winning path (from bottom to top)
 const int WINNING_SECTIONS[WINNING_SECTIONS_NUM] = {0, -800, -1600, -2400, -3200, -4000};
 
@@ -68,11 +69,11 @@ class ofApp : public ofBaseApp
 
 		GameObject buttons[NUM_BUTTONS];		// Array of GameObject objects for buttons
 
-		//Clock timer;							// Clock object
+		Clock timer;							// Clock object
 		Display renderer;						// Display object for drawing to screen
 		PlayerAction actions;					// PlayerAction structure for storing player actions to be executed
 		Input userInput;						// Input object for handling user input
-        ofxImGui::Gui m_gui;
+     
 
 	public:
 
@@ -97,4 +98,8 @@ class ofApp : public ofBaseApp
 		int setHighScore();
 		int randomColour();
 		void destroyPlatforms();
+    
+    
+    // added function abdallah
+    void timerSetUp();
 };

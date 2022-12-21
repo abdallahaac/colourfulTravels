@@ -16,7 +16,7 @@ void ofApp::setup()
     
 	// Setting default variable values
 	currentState = GAME_STATES::MAIN_MENU;
-	highscore = 0;
+
 	won = false;
 
 	currentJump.initialize();
@@ -31,12 +31,12 @@ void ofApp::setup()
     
     gamePlayer.jumping=false;
     backgroundColour.set(227, 244, 255);
-    previousTime = 0;
-    currentTime = ofGetElapsedTimef();
-    gamePlayer.setPlayerColor();
-    
-    currentJump.dy=4;
-    m_gui.setup();
+
+ 
+    //setting timer
+    timer.setTimer();
+
+    highscore = 0;
     
 }
 
@@ -45,20 +45,16 @@ void ofApp::update()
 {
     
 
-//
-//    gamePlayer.platformImage.grabScreen(gamePlayer.getPos().x, gamePlayer.getPos().y+30 , 1,  1);
-//
-//
-//    gamePlayer.platformColour = gamePlayer.platformImage.getPixels().getColor(0);
-//
-//
-//    cout << "Platform colour: "<< gamePlayer.platformColour<<endl;
- 
+    highscore = timer.getTimerWhenPlayerWon(gamePlayer);
+//    cout << "timer: "<<timer.getTimer()<<endl;
+
 	switch (currentState)
 	{
 		case GAME_STATES::PLAY:
 
 			gameRound();
+            timer.getTimerWhenPlayerWon(gamePlayer);
+
 
 			return;
 
@@ -66,6 +62,9 @@ void ofApp::update()
 
 			generateGame();
 			currentState = GAME_STATES::PLAY;
+            //setting the timer to 0 
+            timer.setTimer();
+            timer.getTimerWhenPlayerWon(gamePlayer);
 
 			return;
 
@@ -83,16 +82,12 @@ void ofApp::update()
 void ofApp::draw()
 {
     
-    m_gui.begin();
-    {
-        
-    }
-    m_gui.end();
+ 
     
 	switch (currentState)
 	{
 		case GAME_STATES::PLAY:
-			renderer.displayCanvasView(gamePlayer, firstPlatform, POWER_UP_NUM, buttons[BUTTONS::PAUSE_BUTTON]);
+			renderer.displayCanvasView(gamePlayer, firstPlatform, POWER_UP_NUM,timer, buttons[BUTTONS::PAUSE_BUTTON]);
 			return;
 
 		case GAME_STATES::PAUSE:
@@ -131,12 +126,7 @@ void ofApp::keyPressed(int key)
 void ofApp::keyReleased(int key)
 {
 	userInput.keyRelease(&actions, key);
-    if(key==UP_KEY)
-    {
-//        gamePlayer.jumping=false;
 
-
-    }
 }
 
 // If the mouse have been clicked, call checkButtonPress()
@@ -146,7 +136,7 @@ void ofApp::mousePressed(int x, int y, int button)
 	currentState = userInput.mousePress(x, y, button, currentState);
 
 
-    
+    cout <<"Y: " <<y<<endl;
 }
 
 // Other functions
@@ -173,6 +163,13 @@ void ofApp::buttonSetUp()
 	buttons[BUTTONS::PLAY_AGAIN_BUTTON].setUp(519, 496, 69, 363, &PLAY_AGAIN_BUTTON_IMG);
 }
 
+
+// abdallah initilializes the timer
+void ofApp::timerSetUp()
+{
+
+}
+
 // Generates player information, platforms, power ups, and timer for a game round
 // Refer to section 6.6 for game round generation logic
 void ofApp::generateGame()
@@ -194,7 +191,7 @@ void ofApp::generateGame()
 
 	generateExtraPlatforms();
 
-	//generatePowerUps();
+//	generatePowerUps();
 }
 
 // Generates the platforms for the winning path with their colour, type (regular or special), and position
@@ -324,7 +321,12 @@ void ofApp::generatePowerUps()
 void ofApp::gameRound()
 {
 	// listens to user keyboard inputs and moves the player corresponsdingly
-	gamePlayer.playerMovement(&actions,firstPlatform);
+    timer.updateTimer(gamePlayer);
+    if(timer.getTimer()>1){
+        gamePlayer.playerMovement(&actions,firstPlatform);
+    }
+	
+
 }
 
 // Sets the high score if the parameter high score is higher than the current one

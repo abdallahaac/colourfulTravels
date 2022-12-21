@@ -22,16 +22,17 @@ void Display::displayGameObject(GameObject toDisplay)
 
 // Draws the game canvas view to screen
 // Refer to section 6.11.7 for algorithm
-void Display::displayCanvasView(Player player, Platform* firstPlatform, /*PowerUp fruit[],*/ int numPowerUps, /*Clock timer,*/ GameObject pauseButton)
+void Display::displayCanvasView(Player player, Platform* firstPlatform, /*PowerUp fruit[],*/ int numPowerUps, Clock timer, GameObject pauseButton)
 {
 	// Drawing background 
 	gameBackground.draw(0, 0);
+    
 
 //    player.color=player.getPlatformColorUnderPlayer();
 	ofPushMatrix();
 	
 		// Camera movements
-//		ofTranslate(0, PLAYER_STARTING_Y - player.getPos().y);
+		ofTranslate(0, PLAYER_STARTING_Y - player.getPos().y);
 
 		// Drawing platfroms 
 		Platform* p = firstPlatform;
@@ -59,16 +60,25 @@ void Display::displayCanvasView(Player player, Platform* firstPlatform, /*PowerU
 		// Drawing player
     
     ofPushMatrix();
-    ofFill();
+        ofFill();
 
-    ofSetColor(player.color);
+        ofSetColor(player.color);
+    
 		displayGameObject(player);
 	ofPopMatrix();
+    
+    
+    
     ofSetColor(255, 255, 255);
 
     ofPopMatrix();
 	// Drawing pause button
 	displayGameObject(pauseButton);
+    
+    timer.setUp(1085, 30, 69, 81, pauseButton.getImage());
+ 
+    //Drawing timer
+    displayTimer(timer);
 
 }
 
@@ -82,7 +92,8 @@ void Display::displayMainMenu(GameObject playButton, int highscore)
 	displayGameObject(playButton);
 
 	// Drawing highscore
-	ofDrawBitmapString(ofToString(highscore), 1127, 585);
+    clockFont.load( "franklinGothic.otf", 30 );
+	clockFont.drawString(ofToString(highscore), 1127, 592);
 }
 
 // Draws the pause menu to screen with unpause button, restart button, and main menu button
@@ -123,4 +134,12 @@ void Display::displayEndGame(GameObject mainMenuButton, GameObject playAgainButt
 
 	// Drawing score
 	ofDrawBitmapString(ofToString(score), 735, 435);
+}
+
+void Display::displayTimer(Clock timer)
+{
+    
+    clockFont.load( "franklinGothic.otf", 30 );
+    clockFont.drawString(ofToString( floorf(timer.getTimer()) ), 20, 100);
+    
 }
