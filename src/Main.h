@@ -14,6 +14,11 @@
 #define PLAYER_WIDTH 28																// Player width
 #define PLAYER_STARTING_X (WINDOW_WIDTH / 2)										// Player starting x position
 #define PLAYER_STARTING_Y (WINDOW_HEIGHT - PLATFORM_HEIGHT - PLAYER_HEIGHT -5)		// Player starting y position
+#define BANANA_X_POSITION ofGetWidth()/2                                            // fruits x position
+#define START_TIME 100.0f                                                           // start time
+#define LAST_PLATFORM_Y_POSITION -3200                                              //last platform y position
+#define TIMER_DECREMENT_VALUE 0.015f                                                //timer decrement value
+#define TIMER_INCREMENT_VALUE 1.0f                                                //timer increment value
 
 // Storing a coordinate position of an object on screen
 struct Position
@@ -87,7 +92,6 @@ enum BUTTONS
 #include "Input.h"
 #include "Player.h"
 #include "PowerUps.h"
-//#include "Pear.h"
 #include "Platform.h"
 #include "Clock.h"
 #include "Display.h"

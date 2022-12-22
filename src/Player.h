@@ -19,28 +19,19 @@
 
 
 
-struct JumpInfo
-{
-    int y, x, dy, dx, time;
-    
-
-    void initialize()
-    {
-        y, x, dy, dx, time = 0;
-    }
-};
-
 class Player: public GameObject
 {
     private:
     
     public:
     
+    int gravity;
+    int  jumpingSpeed;
+    int horizontalSpeed;
     float playerGroundLevel;
-    ofImage BANANA_IMG = ofImage("banana.png");    
+    
     
         Player();
-        float x;
         float jumpTime;
         bool jumping;
         ofColor playerColor;
@@ -55,7 +46,6 @@ class Player: public GameObject
         void increaseScore();
         void playerMovement(PlayerAction* action,Platform* head);
         void setUp(int startingX, int startingY, int objectHeight, int objectWidth, ofImage* objectImage);
-        void setPlayerColor();
     
         
     // platform color

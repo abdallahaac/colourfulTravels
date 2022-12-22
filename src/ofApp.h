@@ -81,7 +81,6 @@ class ofApp : public ofBaseApp
 		int highscore;							// Player highscore of session
 		bool won;								// If the player won the current game round
 		Player gamePlayer;						// Player object
-		JumpInfo currentJump;					// JumpInfo structure for storing information about the current player’s jump
 
 		
 		Platform* firstPlatform;				// Pointer to first platform in the linked list
@@ -124,11 +123,11 @@ class ofApp : public ofBaseApp
 		int randomColour();
 		void destroyPlatforms();
         void setUpRainbowPlatform(int startingX, int startingY, int objectHeight, int objectWidth,bool isRainbowPlatformOnGround,int numOfColours);
-        void   getLinkedListLength();
+   
   
       
 
-    ofEasyCam mainCam;
+  
 
     
 };

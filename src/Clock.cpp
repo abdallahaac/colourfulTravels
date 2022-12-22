@@ -2,16 +2,10 @@
 
 #include "Main.h"
 
-void Clock::setTimer(PowerUps fruits[3],Player player)
+void Clock::setTimer(Player player)
 {
-    // setting timer to be 60 seconds
-    
-    float time = 100000.0f;
-    
-
-    
-    
-  
+    // setting timer to be 100 seconds
+     time = START_TIME;
     timer = time;
   
     }
@@ -19,6 +13,19 @@ void Clock::setTimer(PowerUps fruits[3],Player player)
     
     
 
+int Clock::getLastPlatformPositionY()
+{
+     lastPlatformPositionY = LAST_PLATFORM_Y_POSITION;
+    
+    return lastPlatformPositionY;
+}
+
+float Clock::getDecrementValue()
+{
+     decrementValue = TIMER_DECREMENT_VALUE;
+    
+    return decrementValue;
+}
 
 
 float Clock::getTimer()
@@ -28,7 +35,7 @@ float Clock::getTimer()
 
 void Clock::updateTimer(Player player)
 {
-    int lastPlatformPositionY = -3200;
+    int lastPlatformPositionY = getLastPlatformPositionY();
     
     
     if(timer<=0)
@@ -39,8 +46,8 @@ void Clock::updateTimer(Player player)
     if(timer>1 &&player.getPos().y>=lastPlatformPositionY)
     {
         
-//        timer -=0.015f;
-        timer -=0.09f;
+        float decrementVal = getDecrementValue();
+        timer -=decrementVal;
     }else{
         timer-=0;
     }
@@ -50,11 +57,10 @@ void Clock::updateTimer(Player player)
 float Clock::getTimerWhenPlayerWon(Player player)
 {
     
-    int lastPlatformPositionY = -3200;
+    int lastPlatformPositionY = getLastPlatformPositionY();
     if(player.getPos().y<=lastPlatformPositionY)
     {
         timer-=0;
-        cout << "end timer: "<<timer<<endl;
         return timer;
     }
     
@@ -69,7 +75,7 @@ void Clock::increaseTimeOnCollision(Player player,PowerUps fruits)
     
     if(fruits.isCollidedWithPlayer(player))
     {
-        timer +=10000.0f;
+        timer +=TIMER_INCREMENT_VALUE;
         
     }
     

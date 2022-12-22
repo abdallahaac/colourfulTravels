@@ -20,29 +20,31 @@ void Player::playerMovement(PlayerAction* action,Platform* head)
  
     jumpingCooldown-=1;
 
-    int gravity = 1;
-    int jumpingSpeed = -30;
+    gravity = 1;
+    jumpingSpeed = -30;
+    
+    horizontalSpeed = 5;
     
     speed += gravity ;
     
     
     if (action->right )  // right movement
     {
-        setX(getPos().x+5  );
+        setX(getPos().x+horizontalSpeed );
        
-        cout <<"d\n";
+        
     }
     else if (action->left) // left movement
     {
         
   
-        setX(getPos().x-5 );
+        setX(getPos().x-horizontalSpeed);
         
         if(getPos().x<=0)
         {
             setX(0);
         }
-        cout <<"a\n";
+        
     }
     else if (jumping&&jumpingCooldown<=0) //  jump movement
     {
@@ -148,26 +150,8 @@ ofColor Player::getPlatformColorUnderPlayer(int colour)
             break;
     }
     
-//    cout << "Platform Colour: "<<platformColour<<endl;
-   
-
-   
-    
     }
 
- 
-
-    
-
-
-
-
-
-
-void Player::setPlayerColor()
-{
-//    playerColor = getPlatformColorUnderPlayer();
-}
 
 void Player::setUp(int startingX, int startingY, int objectHeight, int objectWidth, ofImage* objectImage)
 {

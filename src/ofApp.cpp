@@ -23,7 +23,6 @@ void ofApp::setup()
 
 	won = false;
 
-	currentJump.initialize();
 
 	// Ground
 	firstPlatform = NULL;
@@ -38,31 +37,17 @@ void ofApp::setup()
 
  
     //setting timer
-    timer.setTimer(fruits,gamePlayer);
+    timer.setTimer(gamePlayer);
 
     highscore = 0;
     
-    
-    
-    fruits[0].setUp(ofGetWidth()/2,  0,100,100 ,&BANANA_IMG);
-    fruits[1].setUp(ofGetWidth()/2,  -800,100,100 ,&BANANA_IMG);
-    fruits[2].setUp(ofGetWidth()/2,  -400,100,100 ,&BANANA_IMG);
-    
+ 
   
-    
-  
-
-    
 }
 
 // Main program loop
 void ofApp::update()
 {
-    
-   
-    highscore = timer.getTimerWhenPlayerWon(gamePlayer);
-
-
     
 	switch (currentState)
 	{
@@ -79,7 +64,7 @@ void ofApp::update()
 			generateGame();
 			currentState = GAME_STATES::PLAY;
             //setting the timer to 0 
-            timer.setTimer(fruits,gamePlayer);
+            timer.setTimer(gamePlayer);
             timer.getTimerWhenPlayerWon(gamePlayer);
 
 			return;
@@ -90,6 +75,10 @@ void ofApp::update()
 			destroyPlatforms();
 
 			return;
+        default:
+            
+             highscore = timer.getTimerWhenPlayerWon(gamePlayer);
+            
 	}
 }
 
@@ -196,6 +185,7 @@ void ofApp::generateGame()
 {
     
   
+    generatePowerUps();
 	gamePlayer.setUp(PLAYER_STARTING_X, PLAYER_STARTING_Y, PLAYER_HEIGHT, PLAYER_WIDTH, &PLAYER_IMG);
 
 	actions.initialize();
@@ -209,14 +199,8 @@ void ofApp::generateGame()
   
     firstPlatform->setUp(0, WINDOW_HEIGHT + 1000, 1, 1, &GROUND_IMG);
 
-
- 
-//	groundLevel = firstPlatform;
-
 	generateWinningPath();
 
-
-   
     generateExtraPlatforms();
     
     setUpRainbowPlatform(0,  WINDOW_HEIGHT - PLATFORM_HEIGHT, PLATFORM_HEIGHT, WINDOW_WIDTH,true,6);
@@ -273,10 +257,7 @@ void ofApp::generateWinningPath()
 				}
 				else
 				{
-                    
-                
-                    
-                    
+                     
 					p->setType(PLATFORMS::END);
 					p->setUp(0, p->getPos().y, PLATFORM_HEIGHT, CANVAS_WIDTH, &GROUND_IMG);
                     
@@ -388,6 +369,17 @@ void ofApp::generatePowerUps()
 
     
     
+
+
+    
+    
+    // setting up power up fruits
+    fruits[0].setUp(BANANA_X_POSITION,  0,50,25 ,&BANANA_IMG);
+    fruits[1].setUp(BANANA_X_POSITION,  -800,50,25 ,&BANANA_IMG);
+    fruits[2].setUp(BANANA_X_POSITION,  -400,50,25 ,&BANANA_IMG);
+    
+    
+    
 }
 
 // One loop of game round loop
@@ -496,28 +488,6 @@ void ofApp::setUpRainbowPlatform(int startingX, int startingY, int objectHeight,
         }
     
     
-    
-
-    getLinkedListLength();
-        
-      
-        
-    }
-
-void ofApp::getLinkedListLength()
-{
-    
-    Platform* currentPlatform = firstPlatform;
-    
-    
-    while (currentPlatform!=NULL) {
-
-        cout << "found platform\n";
-        currentPlatform= currentPlatform->getNext();
-    }
-    
-    
-}
 
 
     

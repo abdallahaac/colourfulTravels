@@ -6,10 +6,15 @@ class Clock:public GameObject
 {
 private:
     float timer;
+    int lastPlatformPositionY ;
+    float decrementValue;
 public:
+    float time;
+    int getLastPlatformPositionY();
+    float getDecrementValue();
 
 //    void setUp(int startingX, int startingY, int objectHeight, int objectWidth);
-    void setTimer(PowerUps fruits[3],Player player);
+    void setTimer(Player player);
     float getTimer();
     void updateTimer(Player player);
 

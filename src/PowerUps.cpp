@@ -44,14 +44,3 @@ bool PowerUps::isCollidedWithPlayer(Player object)
 
 
 
-void PowerUps::hidePowerUp()
-{
-    
-}
-
-
-bool PowerUps::isPowerUpHidden()
-{
-    
-    
-}
