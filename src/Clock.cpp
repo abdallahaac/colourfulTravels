@@ -2,14 +2,24 @@
 
 #include "Main.h"
 
-void Clock::setTimer()
+void Clock::setTimer(PowerUps fruits[3],Player player)
 {
     // setting timer to be 60 seconds
     
-    
     float time = 100000.0f;
+    
+
+    
+    
+  
     timer = time;
-}
+  
+    }
+    
+    
+    
+
+
 
 float Clock::getTimer()
 {
@@ -52,3 +62,15 @@ float Clock::getTimerWhenPlayerWon(Player player)
     return ;
 }
 
+
+
+void Clock::increaseTimeOnCollision(Player player,PowerUps fruits)
+{
+    
+    if(fruits.isCollidedWithPlayer(player))
+    {
+        timer +=10000.0f;
+        
+    }
+    
+}

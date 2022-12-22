@@ -87,7 +87,7 @@ class ofApp : public ofBaseApp
 		Platform* firstPlatform;				// Pointer to first platform in the linked list
 		Platform* groundLevel;					// Pointer to the platform the player is currently on
 		
-		PowerUps fruits;						// Array of PowerUp object pointers
+		PowerUps fruits[3];						// Array of PowerUp object pointers
 		int numPowerUps;						// Number of power ups in a game round
 		int currentPowerUp;						// If player is currently powered up, will store the index value of the power up, otherwise will store - 1
 

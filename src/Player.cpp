@@ -17,8 +17,7 @@ void Player::playerMovement(PlayerAction* action,Platform* head)
 {
     
    
-    cout <<"Player X: "<<getPos().x<<endl;
-    cout <<"Player Y: "<<getPos().y<<endl;
+ 
     jumpingCooldown-=1;
 
     int gravity = 1;
@@ -48,14 +47,12 @@ void Player::playerMovement(PlayerAction* action,Platform* head)
     else if (jumping&&jumpingCooldown<=0) //  jump movement
     {
 
-        
+
         // moving up (negative)
         speed = jumpingSpeed;
         
         jumpingCooldown=1000;
-        
-    
-        
+
         jumping = false;
      
     }
@@ -69,7 +66,6 @@ void Player::playerMovement(PlayerAction* action,Platform* head)
         while (p != NULL)
         {
        
-
             //check for collisoon
             if(p->isCollided(this) )
             {
@@ -88,27 +84,18 @@ void Player::playerMovement(PlayerAction* action,Platform* head)
                         setY(p->getPos().y - getHeight());
                     }
                         
-                
-                    // standing on top of platform
-                  
-                      
                     
-                }else if(p->getType()!=PLATFORMS::SPECIAL&&color==getPlatformColorUnderPlayer(p->getColour()))
+                }else if(p->getType()!=PLATFORMS::SPECIAL&&color==getPlatformColorUnderPlayer(p->getColour())||p->getType()==PLATFORMS::END)
                 {
                     speed = 0;
                     jumpingCooldown=0;
+                    if(pos.y + getHeight()>=p->getPos().y)
+                    {
+                        //
+                        setY(p->getPos().y - getHeight());
+                    }
                 }
                 
-                
-                cout << "type: "<<p->getType()<<endl;
-
-                
-               
-                // only do it if the player color and platform color are the same
-                
-                
-                
-             
                 
             }
             p = p->getNext();

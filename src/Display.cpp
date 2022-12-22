@@ -22,7 +22,7 @@ void Display::displayGameObject(GameObject toDisplay)
 
 // Draws the game canvas view to screen
 // Refer to section 6.11.7 for algorithm
-void Display::displayCanvasView(Player player, Platform* firstPlatform, PowerUps fruit, int numPowerUps, Clock timer, GameObject pauseButton)
+void Display::displayCanvasView(Player player, Platform* firstPlatform, PowerUps fruit[3], int numPowerUps, Clock timer, GameObject pauseButton)
 {
 	// Drawing background 
 	gameBackground.draw(0, 0);
@@ -64,7 +64,13 @@ void Display::displayCanvasView(Player player, Platform* firstPlatform, PowerUps
 //			}
 //		}
 
-    displayGameObject(fruit);
+    
+    for (int i =0; i<3; i++) {
+        
+        
+        displayGameObject(fruit[i]);
+    }
+
 
 		// Drawing player
     

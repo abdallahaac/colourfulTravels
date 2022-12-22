@@ -38,16 +38,17 @@ void ofApp::setup()
 
  
     //setting timer
-    timer.setTimer();
+    timer.setTimer(fruits,gamePlayer);
 
     highscore = 0;
     
     
-//    mainCam.rotateDeg(180, mainCam.getXAxis());
     
-//    mainCam.setPosition(100, 100, 100);
-
+    fruits[0].setUp(ofGetWidth()/2,  0,100,100 ,&BANANA_IMG);
+    fruits[1].setUp(ofGetWidth()/2,  -800,100,100 ,&BANANA_IMG);
+    fruits[2].setUp(ofGetWidth()/2,  -400,100,100 ,&BANANA_IMG);
     
+  
     
   
 
@@ -57,16 +58,12 @@ void ofApp::setup()
 // Main program loop
 void ofApp::update()
 {
-
-  
-
-    cout << "Player Y: "<< gamePlayer.getPos().y<<endl;
-    cout << "Player X: "<< gamePlayer.getPos().x<<endl;
     
- 
+   
     highscore = timer.getTimerWhenPlayerWon(gamePlayer);
 
 
+    
 	switch (currentState)
 	{
 		case GAME_STATES::PLAY:
@@ -82,7 +79,7 @@ void ofApp::update()
 			generateGame();
 			currentState = GAME_STATES::PLAY;
             //setting the timer to 0 
-            timer.setTimer();
+            timer.setTimer(fruits,gamePlayer);
             timer.getTimerWhenPlayerWon(gamePlayer);
 
 			return;
@@ -113,7 +110,7 @@ void ofApp::draw()
             renderer.displayCanvasView(gamePlayer, firstPlatform, fruits,POWER_UP_NUM,timer, buttons[BUTTONS::PAUSE_BUTTON]);
 //            ofTranslate(0, PLAYER_STARTING_Y + gamePlayer.getPos().y );
           
-            mainCam.end();
+       
 			return;
 
 		case GAME_STATES::PAUSE:
@@ -219,10 +216,12 @@ void ofApp::generateGame()
 	generateWinningPath();
 
 
-    fruits.setUp(gamePlayer.getPos().x,gamePlayer.getPos().y+30,100,100, &BANANA_IMG);
+   
     generateExtraPlatforms();
     
     setUpRainbowPlatform(0,  WINDOW_HEIGHT - PLATFORM_HEIGHT, PLATFORM_HEIGHT, WINDOW_WIDTH,true,6);
+
+    
     
 
 }
@@ -270,6 +269,7 @@ void ofApp::generateWinningPath()
 
 					p->setUp(p->getPos().x, p->getPos().y, 1, 1, color);
                     setUpRainbowPlatform(p->getPos().x, p->getPos().y, PLATFORM_HEIGHT, PLATFORM_WIDTH,true,6);
+   
 				}
 				else
 				{
@@ -295,6 +295,7 @@ void ofApp::generateWinningPath()
                 
 				p->setType(PLATFORMS::REGULAR);
 				p->setUp(p->getPos().x, p->getPos().y, PLATFORM_HEIGHT, PLATFORM_WIDTH, color);
+              
 			}
 
 			lastGenerated = p;
@@ -352,6 +353,8 @@ void ofApp::generateExtraPlatforms()
             
 			p->setUp(p->getPos().x, p->getPos().y, 1, 1, &PLATFORM_IMGS[COLOURS::RAINBOW]);
             setUpRainbowPlatform(p->getPos().x, p->getPos().y, PLATFORM_HEIGHT, PLATFORM_WIDTH,true,6);
+            
+       
 		}
 
 		currentPlatform = currentPlatform->getNext()->getNext();
@@ -392,6 +395,9 @@ void ofApp::gameRound()
 {
 	// listens to user keyboard inputs and moves the player corresponsdingly
     timer.updateTimer(gamePlayer);
+    for (int i = 0; i<3; i++) {
+        timer.increaseTimeOnCollision(gamePlayer,fruits[i]);
+    }
     if(timer.getTimer()>1){
         gamePlayer.playerMovement(&actions,firstPlatform);
     }
