@@ -29,7 +29,9 @@ class ofApp : public ofBaseApp
 
 		// ofImage objects for flyweight design pattern
 		ofImage PEAR_IMG = ofImage("");		
-		ofImage BANANA_IMG = ofImage("banana.png");	
+		ofImage BANANA_IMG = ofImage("banana.png");
+    
+    
 		ofImage PLATFORM_IMGS[7] = { ofImage("redPlatform.png"),
 									 ofImage("orangePlatform.png"), 
 									 ofImage("yellowPlatform.png"), 
@@ -49,7 +51,8 @@ class ofApp : public ofBaseApp
                                  ofImage("specialPlatform.png")
         
     };
-    ofImage RESIZABLE_RAINBOW_PLATFORM_IMGS[7] = {    ofImage("redPlatform.png"),
+    ofImage RESIZABLE_RAINBOW_PLATFORM_IMGS[7] = {
+        ofImage("redPlatform.png"),
                                  ofImage("orangePlatform.png"),
                                  ofImage("yellowPlatform.png"),
                                  ofImage("greenPlatform.png"),
@@ -120,8 +123,8 @@ class ofApp : public ofBaseApp
 		int setHighScore();
 		int randomColour();
 		void destroyPlatforms();
-        void setUpRainbowPlatform(int startingX, int startingY, int objectHeight, int objectWidth);
-    void   getLinkedListLength();
+        void setUpRainbowPlatform(int startingX, int startingY, int objectHeight, int objectWidth,bool isRainbowPlatformOnGround,int numOfColours);
+        void   getLinkedListLength();
   
       
 

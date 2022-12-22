@@ -110,24 +110,6 @@ void ofApp::draw()
             
      
 
-    
-//
-//            mainCam.begin();
-//            {
-//
-//
-//
-////                ofRotateX(180);
-//                ofTranslate(-700, 0);
-//
-////                ofVec3f p1;
-////
-////                p1.set(100, 100,100);
-////                mainCam.setTarget(p1);
-//        //        ofRotateYDeg(180);
-//            }
-        
-
             renderer.displayCanvasView(gamePlayer, firstPlatform, fruits,POWER_UP_NUM,timer, buttons[BUTTONS::PAUSE_BUTTON]);
 //            ofTranslate(0, PLAYER_STARTING_Y + gamePlayer.getPos().y );
           
@@ -240,9 +222,8 @@ void ofApp::generateGame()
     fruits.setUp(gamePlayer.getPos().x,gamePlayer.getPos().y+30,100,100, &BANANA_IMG);
     generateExtraPlatforms();
     
+    setUpRainbowPlatform(0,  WINDOW_HEIGHT - PLATFORM_HEIGHT, PLATFORM_HEIGHT, WINDOW_WIDTH,true,6);
     
-    setUpRainbowPlatform(0,  WINDOW_HEIGHT - PLATFORM_HEIGHT, PLATFORM_HEIGHT, WINDOW_WIDTH);
-
 
 }
 
@@ -276,20 +257,30 @@ void ofApp::generateWinningPath()
 				if (i != WINNING_SECTIONS_NUM - 2)
 				{
                     
+ 
+                    
                     int colourInteger = COLOURS::RAINBOW;
                     ofImage* color = &PLATFORM_IMGS[colourInteger];
+                    color->resize(1, 1);
                     p->setColour(colourInteger);
                     
+                    
+                    
 					p->setType(PLATFORMS::SPECIAL);
-					p->setUp(p->getPos().x, p->getPos().y, PLATFORM_HEIGHT, PLATFORM_WIDTH, color);
+
+					p->setUp(p->getPos().x, p->getPos().y, 1, 1, color);
+                    setUpRainbowPlatform(p->getPos().x, p->getPos().y, PLATFORM_HEIGHT, PLATFORM_WIDTH,true,6);
 				}
 				else
 				{
                     
-               
+                
+                    
                     
 					p->setType(PLATFORMS::END);
 					p->setUp(0, p->getPos().y, PLATFORM_HEIGHT, CANVAS_WIDTH, &GROUND_IMG);
+                    
+                    
 				}
 				sectionComplete = true;
 			}
@@ -359,14 +350,15 @@ void ofApp::generateExtraPlatforms()
 		{
             
             
-			p->setUp(p->getPos().x, p->getPos().y, PLATFORM_HEIGHT, PLATFORM_WIDTH, &PLATFORM_IMGS[COLOURS::RAINBOW]);
+			p->setUp(p->getPos().x, p->getPos().y, 1, 1, &PLATFORM_IMGS[COLOURS::RAINBOW]);
+            setUpRainbowPlatform(p->getPos().x, p->getPos().y, PLATFORM_HEIGHT, PLATFORM_WIDTH,true,6);
 		}
 
 		currentPlatform = currentPlatform->getNext()->getNext();
 	}
 }
 
-// Generates a random y position for the platform based on JUMP_HEIGHT, and a random x position for the platform based on JUMP_WIDTH
+// Generates a random y position for the platform based on JUMP_HEIGHT, and a random x position forres the platform based on JUMP_WIDTH
 // Refer to section 6.11.5 for algorithm
 void ofApp::generatePlatforms(Platform* currentPlatform)
 {
@@ -375,7 +367,7 @@ void ofApp::generatePlatforms(Platform* currentPlatform)
 
 	// Generating y
 	tempPos.y = (int)ofRandom(MIN_PLATFORM_DISTANCE , JUMP_HEIGHT);
-	currentPlatform->setY(currentPlatform->getPrevious()->getPos().y - tempPos.y -50);
+	currentPlatform->setY(currentPlatform->getPrevious()->getPos().y - tempPos.y );
 
 	// Generating x
 	currentPlatform->setX(-1);
@@ -439,14 +431,15 @@ void ofApp::destroyPlatforms()
 
 
 
-void ofApp::setUpRainbowPlatform(int startingX, int startingY, int objectHeight, int objectWidth)
+void ofApp::setUpRainbowPlatform(int startingX, int startingY, int objectHeight, int objectWidth,bool isGroundRainbowPlatform,int numberOfColours)
 {
     
     
-    int numberOfColours = 6;
+    
     
     int widthperColouredPlatform = objectWidth / numberOfColours;
-
+    
+   
     Platform* currentPlatform = firstPlatform;
 
     int colourCounter = 0;
@@ -457,11 +450,17 @@ void ofApp::setUpRainbowPlatform(int startingX, int startingY, int objectHeight,
 
             Platform* p = new Platform();
             
-            int currentPlatformX = startingX + widthperColouredPlatform * colourCounter;
+            int currentPlatformX = startingX + widthperColouredPlatform* colourCounter;
             
     
             ofImage* color = &RESIZABLE_GROUND_PLATFORM_IMGS[colourCounter];
+            
+
+                
+            p->setType(PLATFORMS::SPECIAL);
+ 
             color->resize(widthperColouredPlatform, PLATFORM_HEIGHT);
+            
             p->setColour(colourCounter);
 
         
@@ -489,6 +488,9 @@ void ofApp::setUpRainbowPlatform(int startingX, int startingY, int objectHeight,
            
 
         }
+    
+    
+    
 
     getLinkedListLength();
         

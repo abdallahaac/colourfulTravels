@@ -64,6 +64,6 @@ class Player: public GameObject
     ofImage platformImage;
     
     //platform image
-    ofColor getPlatformColorUnderPlayer();
+    ofColor getPlatformColorUnderPlayer(int color);
     
     };

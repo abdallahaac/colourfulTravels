@@ -75,32 +75,40 @@ void Player::playerMovement(PlayerAction* action,Platform* head)
             {
                 
                 //if statement check if we collided with a normal platform or rainbow platform
+                if(p->getType()==PLATFORMS::SPECIAL)
+                {
+                    // moving up (negative)
+                    color = getPlatformColorUnderPlayer(p->getColour());
+                    speed = 0;
+                    jumpingCooldown=0;
+                    
+                    if(pos.y + getHeight()>=p->getPos().y)
+                    {
+                        //
+                        setY(p->getPos().y - getHeight());
+                    }
+                        
+                
+                    // standing on top of platform
+                  
+                      
+                    
+                }else if(p->getType()!=PLATFORMS::SPECIAL&&color==getPlatformColorUnderPlayer(p->getColour()))
+                {
+                    speed = 0;
+                    jumpingCooldown=0;
+                }
                 
                 
-               cout <<"get colour: "<< p->getColour()<<endl;
-                cout <<"get type: "<< p->getType()<<endl;
-                
-                
-                
-                ofTranslate(500, 500);
-                
-                color = getPlatformColorUnderPlayer() ;
+                cout << "type: "<<p->getType()<<endl;
+
                 
                
                 // only do it if the player color and platform color are the same
                 
-                if(pos.y + getHeight()>=p->getPos().y)
-                {
-                    //
-                    setY(p->getPos().y - getHeight());
-                    
-                    
-                }
-                    
-                // standing on top of platform
-              
-                    speed = 0;
-                    jumpingCooldown=0;
+                
+                
+             
                 
             }
             p = p->getNext();
@@ -111,32 +119,58 @@ void Player::playerMovement(PlayerAction* action,Platform* head)
   
 }
 
-ofColor Player::getPlatformColorUnderPlayer()
+ofColor Player::getPlatformColorUnderPlayer(int colour)
 {
     
-  
 
-//    ofTranslate(getPos().x, getPos().y);
     
-    ofTranslate(0, 749 - getPos().y);
+    
+    switch (colour) {
+        case 0:
+            platformColour.set(254, 73, 80);
+            return platformColour;
 
-    platformImage.grabScreen(getPos().x,getPos().y, 500, 500);
-    
-//    platformColour = platformImage.getPixels().getColor(0);
-    
+            break;
+        case 1:
+            platformColour.set(242, 121, 63);
+            return platformColour;
 
-    platformImage.draw(getPos().x, getPos().y+40);
-   
-    platformImage.save("image.png");
-    
+            break;
+        case 2:
+            platformColour.set(243, 206, 63);
+            return platformColour;
+
+            break;
+        case 3:
+            platformColour.set(74, 204, 89);
+            return platformColour;
+
+            break;
+        case 4:
+            platformColour.set(75, 141, 248);
+            return platformColour;
+
+            break;
+        case 5:
+            platformColour.set(183, 83, 248);
+            return platformColour;
+
+            break;
+            
+        default:
+            break;
+    }
     
 //    cout << "Platform Colour: "<<platformColour<<endl;
    
 
-    return platformColour;
+   
+    
+    }
+
+ 
 
     
-}
 
 
 
