@@ -7,7 +7,7 @@ void Clock::setTimer()
     // setting timer to be 60 seconds
     
     
-    float time = 100.0f;
+    float time = 100000.0f;
     timer = time;
 }
 

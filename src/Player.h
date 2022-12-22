@@ -37,7 +37,7 @@ class Player: public GameObject
     public:
     
     float playerGroundLevel;
-    
+    ofImage BANANA_IMG = ofImage("banana.png");    
     
         Player();
         float x;
@@ -47,6 +47,7 @@ class Player: public GameObject
         int speed ;
         int jumpingCooldown;
        
+    
     
     
     

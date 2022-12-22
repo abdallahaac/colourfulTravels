@@ -38,6 +38,7 @@ class Platform : public GameObject
 		bool isCollided(GameObject* object);
 		bool isLandedOn();
 		void landed();
+  
     
 
 };

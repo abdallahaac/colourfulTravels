@@ -36,6 +36,7 @@ int GameObject::getWidth()
 // Returns the pointer to ofImage object of the object (variable is private)
 ofImage* GameObject::getImage()
 {
+    
 	return image;
 }
 

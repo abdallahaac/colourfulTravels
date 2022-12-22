@@ -29,14 +29,35 @@ class ofApp : public ofBaseApp
 
 		// ofImage objects for flyweight design pattern
 		ofImage PEAR_IMG = ofImage("");		
-		ofImage BANANA_IMG = ofImage("");	
+		ofImage BANANA_IMG = ofImage("banana.png");	
 		ofImage PLATFORM_IMGS[7] = { ofImage("redPlatform.png"),
 									 ofImage("orangePlatform.png"), 
 									 ofImage("yellowPlatform.png"), 
 									 ofImage("greenPlatform.png"), 
 									 ofImage("bluePlatform.png"), 
 									 ofImage("purplePlatform.png"), 
-									 ofImage("specialPlatform.png") };
+									 ofImage("specialPlatform.png")
+            
+        };
+    
+    ofImage RESIZABLE_GROUND_PLATFORM_IMGS[7] = { ofImage("redPlatform.png"),
+                                 ofImage("orangePlatform.png"),
+                                 ofImage("yellowPlatform.png"),
+                                 ofImage("greenPlatform.png"),
+                                 ofImage("bluePlatform.png"),
+                                 ofImage("purplePlatform.png"),
+                                 ofImage("specialPlatform.png")
+        
+    };
+    ofImage RESIZABLE_RAINBOW_PLATFORM_IMGS[7] = {    ofImage("redPlatform.png"),
+                                 ofImage("orangePlatform.png"),
+                                 ofImage("yellowPlatform.png"),
+                                 ofImage("greenPlatform.png"),
+                                 ofImage("bluePlatform.png"),
+                                 ofImage("purplePlatform.png"),
+                                 ofImage("specialPlatform.png")
+        
+    };
 		ofImage GROUND_IMG = ofImage("ground.png");
 		ofImage PLAYER_IMG = ofImage("loop.png");	
 		ofImage PLAY_BUTTON_IMG = ofImage("playButton.png");
@@ -48,7 +69,7 @@ class ofApp : public ofBaseApp
     
      
     
-        float previousTime, currentTime;
+     
         ofColor backgroundColour;
           
 
@@ -63,7 +84,7 @@ class ofApp : public ofBaseApp
 		Platform* firstPlatform;				// Pointer to first platform in the linked list
 		Platform* groundLevel;					// Pointer to the platform the player is currently on
 		
-		//PowerUp* fruits;						// Array of PowerUp object pointers
+		PowerUps fruits;						// Array of PowerUp object pointers
 		int numPowerUps;						// Number of power ups in a game round
 		int currentPowerUp;						// If player is currently powered up, will store the index value of the power up, otherwise will store - 1
 
@@ -78,6 +99,7 @@ class ofApp : public ofBaseApp
 	public:
 
     
+      
 		// Built-in functions
 		void setup();
 		void update();
@@ -98,8 +120,12 @@ class ofApp : public ofBaseApp
 		int setHighScore();
 		int randomColour();
 		void destroyPlatforms();
+        void setUpRainbowPlatform(int startingX, int startingY, int objectHeight, int objectWidth);
+    void   getLinkedListLength();
+  
+      
+
+    ofEasyCam mainCam;
+
     
-    
-    // added function abdallah
-    void timerSetUp();
 };

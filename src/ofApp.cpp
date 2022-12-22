@@ -5,7 +5,11 @@
 // Initialises member variables
 void ofApp::setup()
 {
+    
+    
+
 	ofSetWindowShape(WINDOW_WIDTH, WINDOW_HEIGHT);
+    
 	ofSetFrameRate(FRAME_RATE);
 
 	// Setting up buttons
@@ -38,15 +42,30 @@ void ofApp::setup()
 
     highscore = 0;
     
+    
+//    mainCam.rotateDeg(180, mainCam.getXAxis());
+    
+//    mainCam.setPosition(100, 100, 100);
+
+    
+    
+  
+
+    
 }
 
 // Main program loop
 void ofApp::update()
 {
-    
 
+  
+
+    cout << "Player Y: "<< gamePlayer.getPos().y<<endl;
+    cout << "Player X: "<< gamePlayer.getPos().x<<endl;
+    
+ 
     highscore = timer.getTimerWhenPlayerWon(gamePlayer);
-//    cout << "timer: "<<timer.getTimer()<<endl;
+
 
 	switch (currentState)
 	{
@@ -83,11 +102,36 @@ void ofApp::draw()
 {
     
  
+
     
 	switch (currentState)
 	{
 		case GAME_STATES::PLAY:
-			renderer.displayCanvasView(gamePlayer, firstPlatform, POWER_UP_NUM,timer, buttons[BUTTONS::PAUSE_BUTTON]);
+            
+     
+
+    
+//
+//            mainCam.begin();
+//            {
+//
+//
+//
+////                ofRotateX(180);
+//                ofTranslate(-700, 0);
+//
+////                ofVec3f p1;
+////
+////                p1.set(100, 100,100);
+////                mainCam.setTarget(p1);
+//        //        ofRotateYDeg(180);
+//            }
+        
+
+            renderer.displayCanvasView(gamePlayer, firstPlatform, fruits,POWER_UP_NUM,timer, buttons[BUTTONS::PAUSE_BUTTON]);
+//            ofTranslate(0, PLAYER_STARTING_Y + gamePlayer.getPos().y );
+          
+            mainCam.end();
 			return;
 
 		case GAME_STATES::PAUSE:
@@ -102,6 +146,7 @@ void ofApp::draw()
 			renderer.displayEndGame(buttons[BUTTONS::MAIN_MENU_BUTTON], buttons[BUTTONS::PLAY_AGAIN_BUTTON], won, gamePlayer.getScore());
 			return;
 	}
+    
 }
 
 // Called when program is exited, deletes dynamic memory that was allocated
@@ -136,7 +181,7 @@ void ofApp::mousePressed(int x, int y, int button)
 	currentState = userInput.mousePress(x, y, button, currentState);
 
 
-    cout <<"Y: " <<y<<endl;
+ 
 }
 
 // Other functions
@@ -164,34 +209,41 @@ void ofApp::buttonSetUp()
 }
 
 
-// abdallah initilializes the timer
-void ofApp::timerSetUp()
-{
 
-}
 
 // Generates player information, platforms, power ups, and timer for a game round
 // Refer to section 6.6 for game round generation logic
 void ofApp::generateGame()
 {
+    
+  
 	gamePlayer.setUp(PLAYER_STARTING_X, PLAYER_STARTING_Y, PLAYER_HEIGHT, PLAYER_WIDTH, &PLAYER_IMG);
 
 	actions.initialize();
 
 	won = false;
 
-	//timer.setUp();
 
 	// Generating ground
 	firstPlatform = new Platform();
-	firstPlatform->setUp(0, WINDOW_HEIGHT - PLATFORM_HEIGHT, PLATFORM_HEIGHT, WINDOW_WIDTH, &GROUND_IMG);
-	groundLevel = firstPlatform;
+    
+  
+    firstPlatform->setUp(0, WINDOW_HEIGHT + 1000, 1, 1, &GROUND_IMG);
+
+
+ 
+//	groundLevel = firstPlatform;
 
 	generateWinningPath();
 
-	generateExtraPlatforms();
 
-//	generatePowerUps();
+    fruits.setUp(gamePlayer.getPos().x,gamePlayer.getPos().y+30,100,100, &BANANA_IMG);
+    generateExtraPlatforms();
+    
+    
+    setUpRainbowPlatform(0,  WINDOW_HEIGHT - PLATFORM_HEIGHT, PLATFORM_HEIGHT, WINDOW_WIDTH);
+
+
 }
 
 // Generates the platforms for the winning path with their colour, type (regular or special), and position
@@ -223,11 +275,19 @@ void ofApp::generateWinningPath()
 			{
 				if (i != WINNING_SECTIONS_NUM - 2)
 				{
+                    
+                    int colourInteger = COLOURS::RAINBOW;
+                    ofImage* color = &PLATFORM_IMGS[colourInteger];
+                    p->setColour(colourInteger);
+                    
 					p->setType(PLATFORMS::SPECIAL);
-					p->setUp(p->getPos().x, p->getPos().y, PLATFORM_HEIGHT, PLATFORM_WIDTH, &PLATFORM_IMGS[COLOURS::RAINBOW]);
+					p->setUp(p->getPos().x, p->getPos().y, PLATFORM_HEIGHT, PLATFORM_WIDTH, color);
 				}
 				else
 				{
+                    
+               
+                    
 					p->setType(PLATFORMS::END);
 					p->setUp(0, p->getPos().y, PLATFORM_HEIGHT, CANVAS_WIDTH, &GROUND_IMG);
 				}
@@ -235,8 +295,15 @@ void ofApp::generateWinningPath()
 			}
 			else
 			{
+                
+                int colourInteger = sectionColours[i];
+                ofImage* color = &PLATFORM_IMGS[colourInteger];
+                p->setColour(colourInteger);
+                
+                
+                
 				p->setType(PLATFORMS::REGULAR);
-				p->setUp(p->getPos().x, p->getPos().y, PLATFORM_HEIGHT, PLATFORM_WIDTH, &PLATFORM_IMGS[sectionColours[i]]);
+				p->setUp(p->getPos().x, p->getPos().y, PLATFORM_HEIGHT, PLATFORM_WIDTH, color);
 			}
 
 			lastGenerated = p;
@@ -279,10 +346,19 @@ void ofApp::generateExtraPlatforms()
 
 		if (p->getType() == PLATFORMS::REGULAR)
 		{
-			p->setUp(p->getPos().x, p->getPos().y, PLATFORM_HEIGHT, PLATFORM_WIDTH, &PLATFORM_IMGS[randomColour()]);
+            
+            //
+            int colourInteger = randomColour();
+            ofImage* color = &PLATFORM_IMGS[colourInteger];
+            p->setColour(colourInteger);
+            
+            
+			p->setUp(p->getPos().x, p->getPos().y, PLATFORM_HEIGHT, PLATFORM_WIDTH,color );
 		}
 		else
 		{
+            
+            
 			p->setUp(p->getPos().x, p->getPos().y, PLATFORM_HEIGHT, PLATFORM_WIDTH, &PLATFORM_IMGS[COLOURS::RAINBOW]);
 		}
 
@@ -298,8 +374,8 @@ void ofApp::generatePlatforms(Platform* currentPlatform)
 	tempPos.initialize();
 
 	// Generating y
-	tempPos.y = (int)ofRandom(MIN_PLATFORM_DISTANCE, JUMP_HEIGHT);
-	currentPlatform->setY(currentPlatform->getPrevious()->getPos().y - tempPos.y);
+	tempPos.y = (int)ofRandom(MIN_PLATFORM_DISTANCE , JUMP_HEIGHT);
+	currentPlatform->setY(currentPlatform->getPrevious()->getPos().y - tempPos.y -50);
 
 	// Generating x
 	currentPlatform->setX(-1);
@@ -315,6 +391,8 @@ void ofApp::generatePlatforms(Platform* currentPlatform)
 void ofApp::generatePowerUps()
 {
 
+    
+    
 }
 
 // One loop of game round loop
@@ -359,4 +437,85 @@ void ofApp::destroyPlatforms()
 	}
 }
 
+
+
+void ofApp::setUpRainbowPlatform(int startingX, int startingY, int objectHeight, int objectWidth)
+{
+    
+    
+    int numberOfColours = 6;
+    
+    int widthperColouredPlatform = objectWidth / numberOfColours;
+
+    Platform* currentPlatform = firstPlatform;
+
+    int colourCounter = 0;
+        for (int i = 0; i <numberOfColours; i++) {
+            
+            // first platform -> existing platform one
+            // first platform -> p1 -> existing platform one
+
+            Platform* p = new Platform();
+            
+            int currentPlatformX = startingX + widthperColouredPlatform * colourCounter;
+            
+    
+            ofImage* color = &RESIZABLE_GROUND_PLATFORM_IMGS[colourCounter];
+            color->resize(widthperColouredPlatform, PLATFORM_HEIGHT);
+            p->setColour(colourCounter);
+
+        
+            p->setUp(currentPlatformX, startingY, PLATFORM_HEIGHT, widthperColouredPlatform, color);
+         
+            // first platform -> p1 -> existing platform one
+            p->setNext(currentPlatform->getNext());
+            currentPlatform->getNext()->setPrevious(p);
+            currentPlatform->setNext(p);
+            p->setPrevious(currentPlatform);
+
+    
+//            int colourInteger = randomColour();
+//            ofImage* color = &PLATFORM_IMGS[colourInteger];
+//            p->setColour(colourInteger);
+
+   
+            colourCounter++;
+            
+            currentPlatform = p ;
+            
+ 
+            
+            
+           
+
+        }
+
+    getLinkedListLength();
+        
+      
+        
+    }
+
+void ofApp::getLinkedListLength()
+{
+    
+    Platform* currentPlatform = firstPlatform;
+    
+    
+    while (currentPlatform!=NULL) {
+
+        cout << "found platform\n";
+        currentPlatform= currentPlatform->getNext();
+    }
+    
+    
+}
+
+
+    
+
+    
+
+    
+    
 

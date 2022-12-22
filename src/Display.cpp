@@ -22,50 +22,63 @@ void Display::displayGameObject(GameObject toDisplay)
 
 // Draws the game canvas view to screen
 // Refer to section 6.11.7 for algorithm
-void Display::displayCanvasView(Player player, Platform* firstPlatform, /*PowerUp fruit[],*/ int numPowerUps, Clock timer, GameObject pauseButton)
+void Display::displayCanvasView(Player player, Platform* firstPlatform, PowerUps fruit, int numPowerUps, Clock timer, GameObject pauseButton)
 {
 	// Drawing background 
 	gameBackground.draw(0, 0);
     
 
-//    player.color=player.getPlatformColorUnderPlayer();
+
+
 	ofPushMatrix();
 	
 		// Camera movements
-		ofTranslate(0, PLAYER_STARTING_Y - player.getPos().y);
+    
+        ofTranslate(0, PLAYER_STARTING_Y - player.getPos().y);
+//        ofTranslate(0,0);
+    
+
+ 
 
 		// Drawing platfroms 
 		Platform* p = firstPlatform;
 
 		while (p != NULL)
 		{
+            
+          
 			displayGameObject(*p);
+            
 
 			p = p->getNext();
 		}
 
-		// Drawing power ups
-		/* UNCOMMENT WHEN POWERUP CLASS IS DONE
-		
-		for (int i = 0; i < numPowerUps; i++)
-		{
-			if (fruit[i].isDisabled() == false)
-			{
-				displayGameObject(fruit[i]);
-			}
-		}
-		
-		*/
+//		 Drawing power ups
+//		 UNCOMMENT WHEN POWERUP CLASS IS DONE
+//
+//		for (int i = 0; i < numPowerUps; i++)
+//		{
+//			if (fruit[i].isDisabled() == false)
+//			{
+
+//			}
+//		}
+
+    displayGameObject(fruit);
 
 		// Drawing player
     
-    ofPushMatrix();
-        ofFill();
 
-        ofSetColor(player.color);
     
-		displayGameObject(player);
-	ofPopMatrix();
+        ofPushMatrix();
+            ofFill();
+
+            ofSetColor(player.color);
+        
+            displayGameObject(player);
+
+        
+        ofPopMatrix();
     
     
     
@@ -73,9 +86,10 @@ void Display::displayCanvasView(Player player, Platform* firstPlatform, /*PowerU
 
     ofPopMatrix();
 	// Drawing pause button
+
 	displayGameObject(pauseButton);
     
-    timer.setUp(1085, 30, 69, 81, pauseButton.getImage());
+
  
     //Drawing timer
     displayTimer(timer);
